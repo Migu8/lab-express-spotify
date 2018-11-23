@@ -1,4 +1,17 @@
 var SpotifyWebApi = require('spotify-web-api-node');
+const express = require('express')
+const app = express()
+const hbs = require('hbs')
+
+app.use(express.static('public'))
+
+app.set('/views', __dirname + '/views')
+app.set('view engine', 'hbs')
+
+hbs.registerPartials(__dirname+'/views/partials')
+
+const spotifyRoutes= require('./routes/routes')
+app.use('/', spotifyRoutes)
 
 // Remember to paste your credentials here
 var clientId = 'db531a6bbd0347dab1395fca3cb97688',
@@ -16,3 +29,7 @@ spotifyApi.clientCredentialsGrant()
   }, function(err) {
     console.log('Something went wrong when retrieving an access token', err);
 });
+
+app.listen(3000, (request, response)=>{
+    console.log('Listo en el 3000')
+})
